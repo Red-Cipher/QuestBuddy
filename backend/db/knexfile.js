@@ -7,10 +7,10 @@ module.exports = {
 	development: {
 		client: "mysql",
 		connection: {
-			host: "localhost",
-			user: "root",
-			password: "rootroot",
-			database: "QuestBuddy",
+			host: process.env.DB_HOST,
+			user: process.env.DB_USER,
+			password: process.env.DB_PASS,
+			database: process.env.DB_NAME,
 		},
 		migrations: {
 			tableName: "knex_migrations",
