@@ -12,6 +12,12 @@ const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 // Connect to Public directory using static middleware
 app.use(express.static('public'));
 
+// Parse URL encoded bodies
+app.use(express.urlencoded({ extended: true }));
+
+//Parse JSON
+app.use(express.json());
+
 // Define Route
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('Hello World!');
