@@ -1,5 +1,5 @@
 import express from 'express';
-import taskRouter from './routes/taskRouter';
+import Router from './routes/RouteMaster';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -9,23 +9,21 @@ const app: express.Application = express();
 // The port the express app will listen on
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-// Connect to Public directory using static middleware
-app.use(express.static('public'));
-
 // Parse URL encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
-//Parse JSON
+// Parse JSON
 app.use(express.json());
+
+// Attach the routers
+app.use('/api', Router);
 
 // Define Route
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('Hello World!');
 });
 
-app.use('/tasks', taskRouter);
-
-//Start Express server
+// Start Express server
 app.listen(port, () => {
   console.log(`Express server started on http://localhost:${port}`);
 });
