@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const MainService_1 = require("../services/MainService");
+const validation_1 = require("../middleware/validation");
 const router = express_1.default.Router();
 // Retrieve a list of tasks for the User
 router.get('/tasks/:userid', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -70,7 +71,7 @@ router.get('/rewards/random', (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 }));
 // Create a new reward that will be added to the rewards list
-router.post('/rewards/add', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/rewards/add', validation_1.validateReward, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const reward = yield (0, MainService_1.addReward)(req.body);
         res.json(reward);

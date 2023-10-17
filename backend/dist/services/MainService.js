@@ -20,25 +20,25 @@ const db = (0, knex_1.default)(config);
 // This function retrieves a list of tasks
 function getAllTasks(userID) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield db("Tasks").where({ user_id: userID });
+        return yield db("Tasks").where({ UserID: userID });
     });
 }
 exports.getAllTasks = getAllTasks;
 // This function updates a single task
 function updateSingleTask(taskID) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield db("Tasks").where({ id: taskID }).update({ status: "complete" });
+        return yield db("Tasks").where({ TaskID: taskID }).update({ status: "complete" });
     });
 }
 exports.updateSingleTask = updateSingleTask;
 // This function updates a quest
 function updateQuest(questID) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield db("Quests").where({ id: questID }).increment("tasks_completed", 1);
-        const quest = yield db("Quests").where({ id: questID }).first();
-        if (quest.tasks_completed < 3) {
+        yield db("Quests").where({ QuestID: questID }).increment("TasksCompleted", 1);
+        const quest = yield db("Quests").where({ QuestID: questID }).first();
+        if (quest.TasksCompleted < 3) {
             return yield db("Quests")
-                .where({ id: questID })
+                .where({ QuestID: questID })
                 .update({ status: "ongoing" });
         }
     });
@@ -47,10 +47,10 @@ exports.updateQuest = updateQuest;
 // Complete a quest
 function completeQuest(questID) {
     return __awaiter(this, void 0, void 0, function* () {
-        const quest = yield db("Quests").where({ id: questID }).first();
-        if (quest.tasks_completed >= 3) {
+        const quest = yield db("Quests").where({ QuestID: questID }).first();
+        if (quest.TasksCompleted >= 3) {
             return yield db("Quests")
-                .where({ id: questID })
+                .where({ QuestID: questID })
                 .update({ status: "complete" });
         }
     });

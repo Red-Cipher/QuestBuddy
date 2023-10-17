@@ -6,34 +6,34 @@ const db = knex(config);
 
 // This function retrieves a list of tasks
 export async function getAllTasks(userID: number) {
-	return await db("Tasks").where({ user_id: userID });
+	return await db("Tasks").where({ UserID: userID });
 }
 
 // This function updates a single task
 export async function updateSingleTask(taskID: number) {
-	return await db("Tasks").where({ id: taskID }).update({ status: "complete" });
+	return await db("Tasks").where({ TaskID: taskID }).update({ status: "complete" });
 }
 
 // This function updates a quest
 export async function updateQuest(questID: number) {
-	await db("Quests").where({ id: questID }).increment("tasks_completed", 1);
+	await db("Quests").where({ QuestID: questID }).increment("TasksCompleted", 1);
 
-	const quest = await db("Quests").where({ id: questID }).first();
+	const quest = await db("Quests").where({ QuestID: questID }).first();
 
-	if (quest.tasks_completed < 3) {
+	if (quest.TasksCompleted < 3) {
 		return await db("Quests")
-			.where({ id: questID })
+			.where({ QuestID: questID })
 			.update({ status: "ongoing" });
 	}
 }
 
 // Complete a quest
 export async function completeQuest(questID: number) {
-	const quest = await db("Quests").where({ id: questID }).first();
+	const quest = await db("Quests").where({ QuestID: questID }).first();
 
-	if (quest.tasks_completed >= 3) {
+	if (quest.TasksCompleted >= 3) {
 		return await db("Quests")
-			.where({ id: questID })
+			.where({ QuestID: questID })
 			.update({ status: "complete" });
 	}
 }

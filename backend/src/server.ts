@@ -1,7 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: __dirname + '/../.env'});
 import express from 'express';
 import Router from './routes/RouteMaster';
-import dotenv from 'dotenv';
-dotenv.config();
+console.log("Path to .env: ", __dirname + '/../.env');
+console.log("PORT from .env:", process.env.PORT);
+console.log(process.env);
+
 
 // Create a new express application instance
 const app: express.Application = express();

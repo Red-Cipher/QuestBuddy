@@ -1,6 +1,6 @@
 import express from 'express';
 import { getAllTasks, updateSingleTask, updateQuest, completeQuest, getRandomReward, addReward } from '../services/MainService';
-
+import { validateReward } from '../middleware/validation';
 
 const router = express.Router();
 
@@ -60,7 +60,7 @@ router.get('/rewards/random', async (req, res) => {
 });
 
 // Create a new reward that will be added to the rewards list
-router.post('/rewards/add',  async (req, res) => {
+router.post('/rewards/add',  validateReward, async (req, res) => {
   try {
   const reward = await addReward(req.body);
   res.json(reward)
