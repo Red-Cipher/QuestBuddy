@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@types/node": "^20.8.5",
+    "knex": "^3.0.1",
+    "mysql": "^2.18.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
