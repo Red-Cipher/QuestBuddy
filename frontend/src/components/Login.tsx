@@ -1,19 +1,29 @@
 import React, {useState} from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router";
 
 const LoginComponent: React.FC = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const storedUserID = localStorage.getItem('userID');
+        if (storedUserID) {
+            navigate('/dashboard');
+            return;
+        }
+        
         try {
             const response = await axios.post('http://localhost:3000/api/login', { username, password });
             const { userID} = response.data;
 
             if (userID) {
                 localStorage.setItem('userID', userID);
+                navigate('/dashboard');
             } else {
                 setErrorMessage("Invalid credentials")
             }

@@ -1,4 +1,5 @@
 import LoginComponent from "./components/Login";
+import Dashboard from "./Pages/Dashboard";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route element={<LoginComponent />} path="/login" />
           <Route element={<LoginComponent />} path="/" />
+          <Route element={<Dashboard />} path="/dashboard" />
         </Routes>
       </>
     </BrowserRouter>
