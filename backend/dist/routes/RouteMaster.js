@@ -16,6 +16,19 @@ const express_1 = __importDefault(require("express"));
 const MainService_1 = require("../services/MainService");
 const validation_1 = require("../middleware/validation");
 const router = express_1.default.Router();
+router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    try {
+        let user = yield (0, MainService_1.findUserbyUsername)(username);
+        if (!user) {
+            user = yield (0, MainService_1.createUser)(username, password);
+        }
+        res.json({ userID: user.id });
+    }
+    catch (err) {
+        res.status(500).json({ message: "Error processing login", error: err });
+    }
+}));
 // Retrieve a list of tasks for the User
 router.get('/tasks/:userid', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userID = parseInt(req.params.userid);

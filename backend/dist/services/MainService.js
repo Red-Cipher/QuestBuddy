@@ -12,11 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addReward = exports.getRandomReward = exports.completeQuest = exports.updateQuest = exports.updateSingleTask = exports.getAllTasks = void 0;
+exports.addReward = exports.getRandomReward = exports.completeQuest = exports.updateQuest = exports.updateSingleTask = exports.getAllTasks = exports.findUserbyUsername = exports.createUser = void 0;
 const knex_1 = __importDefault(require("knex"));
 const knexFile = require("../../db/knexfile");
 const config = knexFile.development;
 const db = (0, knex_1.default)(config);
+// This function creates a user
+function createUser(username, password) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const [id] = yield db("Users").insert({ username, password });
+        return { id, username, password };
+    });
+}
+exports.createUser = createUser;
+// This function checks if a user exists
+function findUserbyUsername(username) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield db("Users").where({ username }).first();
+    });
+}
+exports.findUserbyUsername = findUserbyUsername;
 // This function retrieves a list of tasks
 function getAllTasks(userID) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -27,7 +42,9 @@ exports.getAllTasks = getAllTasks;
 // This function updates a single task
 function updateSingleTask(taskID) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield db("Tasks").where({ TaskID: taskID }).update({ status: "complete" });
+        return yield db("Tasks")
+            .where({ TaskID: taskID })
+            .update({ status: "complete" });
     });
 }
 exports.updateSingleTask = updateSingleTask;

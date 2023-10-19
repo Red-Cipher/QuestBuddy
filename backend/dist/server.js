@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: __dirname + '/../.env' });
+dotenv_1.default.config({ path: "./db/.env" });
 const express_1 = __importDefault(require("express"));
 const RouteMaster_1 = __importDefault(require("./routes/RouteMaster"));
 console.log("Path to .env: ", __dirname + '/../.env');

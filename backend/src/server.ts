@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: __dirname + '/../.env'});
+dotenv.config({path: "/home/red-cipher/Desktop/QuestBuddy - Folder/QuestBuddy/backend/db/.env"});
 import express from 'express';
 import Router from './routes/RouteMaster';
-console.log("Path to .env: ", __dirname + '/../.env');
+import cors from 'cors';
+console.log("Path to .env: ", './db/.env');
 console.log("PORT from .env:", process.env.PORT);
 console.log(process.env);
 
@@ -13,7 +14,10 @@ const app: express.Application = express();
 // The port the express app will listen on
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-// Parse URL encoded bodies
+// Apply cors
+app.use(cors());
+
+// Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
 // Parse JSON

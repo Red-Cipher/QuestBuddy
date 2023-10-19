@@ -1,20 +1,48 @@
 import express from 'express';
-import { getAllTasks, updateSingleTask, updateQuest, completeQuest, getRandomReward, addReward } from '../services/MainService';
+import { addTask, findUserbyUsername, createUser, getAllTasks, updateSingleTask, updateQuest, completeQuest, getRandomReward, addReward } from '../services/MainService';
 import { validateReward } from '../middleware/validation';
 
 const router = express.Router();
 
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  console.log(req.body)
+  try {
+    let user = await findUserbyUsername(username);
+
+    if (!user) {
+      user = await createUser(username, password);
+    }
+
+    res.json({userID: user.id})
+  } catch (err) {
+    res.status(500).json({message: "Error processing login", error: err});
+  }
+});
+
+// Create a new task for the User
+router.post('/tasks/add', async (req, res) => {
+  try {
+    const newTask = await addTask(req.body);
+    res.json(newTask);
+  } catch (err) {
+    res.status(500).json({message: "Error adding task", error: err});
+  }
+});
+
+
 // Retrieve a list of tasks for the User
-router.get('/tasks/:userid', async (req, res) => {
-  const userID = parseInt(req.params.userid);
+router.get('/tasks/:UserID', async (req, res) => {
+  const userID = parseInt(req.params.UserID);
 
   try {
     const tasks = await getAllTasks(userID);
-  res.json(tasks);
+    res.json(tasks);
   } catch (err) {
-    res.status(500).json({message: "Error retrieving tasks", error: err});
+    res.status(500).json({ message: "Error retrieving tasks", error: err });
   }
 });
+
 
 // Update a task when a user completes it
 router.patch('/tasks/complete/:taskid', async (req, res) => {
